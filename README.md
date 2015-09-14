@@ -12,5 +12,5 @@ My Computer Science teacher loves BlueJ so to get around having to use BlueJ I c
   
 ###To-Do  
 * [x] Basic Eclipse support
-* [ ] Basic IntelliJ support
+* [x] Basic IntelliJ support
 * [ ] Support for external dependencies
