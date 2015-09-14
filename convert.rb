@@ -31,16 +31,21 @@ end
 
 def convert (project_ide, output_dir)
   if project_ide == "INTELLIJ"
-    puts "IntelliJ is not supported yet."
     remove_intellij_files output_dir
+    remove_common_files output_dir
   elsif project_ide == "ECLIPSE"
     remove_eclipse_files output_dir
+    remove_common_files output_dir
   else
     puts "Please specifiy either Eclipse or IntelliJ"
     exit
   end
 
   convert_to_bluej output_dir
+end
+
+def remove_common_files (output_dir)
+
 end
 
 def remove_eclipse_files (output_dir)
@@ -51,7 +56,14 @@ def remove_eclipse_files (output_dir)
 end
 
 def remove_intellij_files (output_dir)
-
+  FileUtils.rm_r "#{output_dir}/.idea"
+  FileUtils.rm_r "#{output_dir}/out"
+  FileUtils.rm "#{output_dir}/plugin.yml"
+  Find.find(output_dir) do |path|
+    if path.include? ".iml"
+      FileUtils.rm "#{path}"
+    end
+  end
 end
 
 def convert_to_bluej (output_dir)
