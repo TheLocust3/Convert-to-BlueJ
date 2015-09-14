@@ -1,11 +1,16 @@
 # Convert to BlueJ
 A Ruby project to convert Eclipse and IntelliJ (not implemented) projects into BlueJ projects
 
-### Backstory  
+###Backstory  
 My Computer Science teacher loves BlueJ so to get around having to use BlueJ I created this so that I could still program in other IDEs  
   
-### Usage
+###Usage
 `ruby convert.rb SOURCE_PROJECT OUTPUT_PROJECT [options]`  
 `-cIDE`, `--convert=IDE` - Specify what IDE the source project was from  
   
-`OUTPUT_PROJECT` cannot already be a folder
+`OUTPUT_PROJECT` cannot already be a folder  
+  
+###To-Do  
+* [x] Basic Eclipse support
+* [ ] Basic IntelliJ support
+* [ ] Support for external dependencies
