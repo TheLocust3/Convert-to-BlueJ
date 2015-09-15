@@ -45,7 +45,7 @@ def convert (project_ide, output_dir)
 end
 
 def remove_common_files (output_dir)
-
+  delete_file_with_ending(output_dir, ".jar")
 end
 
 def remove_eclipse_files (output_dir)
@@ -57,9 +57,9 @@ end
 
 def remove_intellij_files (output_dir)
   FileUtils.rm_r "#{output_dir}/.idea"
-  FileUtils.rm_r "#{output_dir}/out"
   FileUtils.rm "#{output_dir}/plugin.yml"
-  delete_file_ending_with(output_dir, ".iml")
+  FileUtils.rm_r "#{output_dir}/out", :force => true
+  delete_file_with_ending(output_dir, ".iml")
 end
 
 def convert_to_bluej (output_dir)
@@ -70,15 +70,15 @@ def convert_to_bluej (output_dir)
   end 
 end
 
-def create_package_file location
+def create_package_file (location)
   file = File.open location + "/package.bluej", "w"
   file.puts "#BlueJ package file"
-  file.puts "#This project was converted from another IDE"
+  file.puts "#This project was converted to BlueJ from another IDE"
   file.puts "project.charset=UTF-8"
   file.close
 end
 
-def delete_file_ending_with (location, ending)
+def delete_file_with_ending (location, ending)
   Find.find(location) do |path|
     if path.include? ending
       FileUtils.rm "#{path}"
