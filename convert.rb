@@ -52,18 +52,14 @@ def remove_eclipse_files (output_dir)
   FileUtils.rm "#{output_dir}/.classpath"
   FileUtils.rm "#{output_dir}/.project"
   FileUtils.rm_r "#{output_dir}/.settings"
-  FileUtils.rm_r "#{output_dir}/bin", :noop => true
+  FileUtils.rm_r "#{output_dir}/bin", :force => true
 end
 
 def remove_intellij_files (output_dir)
   FileUtils.rm_r "#{output_dir}/.idea"
   FileUtils.rm_r "#{output_dir}/out"
   FileUtils.rm "#{output_dir}/plugin.yml"
-  Find.find(output_dir) do |path|
-    if path.include? ".iml"
-      FileUtils.rm "#{path}"
-    end
-  end
+  delete_file_ending_with(output_dir, ".iml")
 end
 
 def convert_to_bluej (output_dir)
@@ -80,6 +76,14 @@ def create_package_file location
   file.puts "#This project was converted from another IDE"
   file.puts "project.charset=UTF-8"
   file.close
+end
+
+def delete_file_ending_with (location, ending)
+  Find.find(location) do |path|
+    if path.include? ending
+      FileUtils.rm "#{path}"
+    end
+  end
 end
 
 options = parse_options
