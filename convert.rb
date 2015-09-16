@@ -1,33 +1,6 @@
-require 'optparse'
 require 'fileutils'
 require 'find'
-
-def parse_options
-  options = {}
-  OptionParser.new do |opts|
-    opts.banner = "Usage: convert.rb SOURCE_PROJECT OUTPUT_PROJECT [options]"
-
-    opts.on("-cIDE", "--convert=IDE", "Specifiy what IDE the source project was from") do |convert|
-      options[:convert] = convert.upcase
-    end
-  end.parse!
-
-  if ARGV[0] != nil
-    if !File.directory?(ARGV[0])
-      puts "Input directory does not exists. Aborting"
-      exit
-    end
-  end
-
-  if ARGV[1] != nil
-    if File.directory?(ARGV[1])
-      puts "Output directory already exists. Aborting"
-      exit
-    end
-  end
-
-  options
-end
+require_relative 'arguments.rb'
 
 def convert (project_ide, output_dir)
   if project_ide == "INTELLIJ"
@@ -87,8 +60,8 @@ def delete_file_with_ending (location, ending)
 end
 
 options = parse_options
-source_dir = ARGV[0].chomp '/'
-output_dir = ARGV[1].chomp '/'
+source_dir = ARGV[0].chomp '/' # Some functions don't want '/'
+output_dir = ARGV[1].chomp '/' # Some functions don't want '/'
 
 FileUtils.cp_r source_dir, output_dir
 convert options[:convert], output_dir
